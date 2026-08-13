@@ -1,0 +1,880 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light dark">
+  <title>新西兰7晚8日行程清单 · iOS极简版</title>
+  <style>
+    :root {
+      --ios-bg: #f5f5f7;
+      --ios-card: rgba(255, 255, 255, 0.88);
+      --ios-card-solid: #ffffff;
+      --ios-label: #1d1d1f;
+      --ios-secondary: #6e6e73;
+      --ios-tertiary: #8e8e93;
+      --ios-blue: #007aff;
+      --ios-blue-soft: rgba(0, 122, 255, 0.09);
+      --ios-separator: rgba(60, 60, 67, 0.14);
+      --ios-warning: #9a6700;
+      --ios-warning-bg: #fff8e6;
+      --ios-radius: 22px;
+      --ios-shadow: 0 12px 35px rgba(0, 0, 0, 0.055);
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      color: var(--ios-label);
+      background: var(--ios-bg);
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "PingFang SC", "Helvetica Neue", sans-serif;
+      font-size: 15px;
+      line-height: 1.65;
+      -webkit-font-smoothing: antialiased;
+    }
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      border-bottom: 1px solid var(--ios-separator);
+      background: rgba(245, 245, 247, 0.76);
+      backdrop-filter: saturate(180%) blur(24px);
+      -webkit-backdrop-filter: saturate(180%) blur(24px);
+    }
+    .topbar-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: min(980px, calc(100% - 32px));
+      min-height: 52px;
+      margin: auto;
+    }
+    .brand { font-size: 14px; font-weight: 650; letter-spacing: -0.01em; }
+    .nav-links { display: flex; gap: 6px; }
+    .nav-links a {
+      padding: 7px 11px;
+      color: var(--ios-secondary);
+      border-radius: 999px;
+      font-size: 13px;
+      text-decoration: none;
+    }
+    .nav-links a:hover { color: var(--ios-blue); background: var(--ios-blue-soft); }
+    main {
+      width: min(980px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 72px 0 96px;
+    }
+    h1, h2, h3 { color: var(--ios-label); line-height: 1.2; letter-spacing: -0.025em; }
+    h1 {
+      margin: 0;
+      font-size: clamp(34px, 6vw, 58px);
+      font-weight: 750;
+    }
+    .doc-title { max-width: 920px; font-size: clamp(36px, 5vw, 50px); }
+    .plan-title {
+      margin-top: 76px;
+      padding-top: 28px;
+      border-top: 1px solid var(--ios-separator);
+      font-size: clamp(29px, 4.5vw, 43px);
+    }
+    .utility-title {
+      margin-top: 70px;
+      padding-top: 26px;
+      border-top: 1px solid var(--ios-separator);
+      font-size: clamp(26px, 4vw, 34px);
+    }
+    h2 {
+      margin: 52px 0 16px;
+      font-size: 24px;
+      font-weight: 700;
+    }
+    h3 { margin: 32px 0 12px; font-size: 18px; font-weight: 650; }
+    p { margin: 10px 0; }
+    strong { font-weight: 680; }
+    a { color: var(--ios-blue); text-underline-offset: 3px; overflow-wrap: anywhere; }
+    a:hover { text-decoration-thickness: 2px; }
+    hr { display: none; }
+    blockquote {
+      margin: 18px 0;
+      padding: 16px 18px;
+      color: var(--ios-warning);
+      background: var(--ios-warning-bg);
+      border: 0;
+      border-radius: 16px;
+    }
+    blockquote p { margin: 4px 0; }
+    .hero-meta {
+      margin: 22px 0 0;
+      padding: 0;
+      color: var(--ios-secondary);
+      background: transparent;
+      font-size: 16px;
+    }
+    .plan-overview {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+      margin: 38px 0 70px;
+    }
+    .overview-card {
+      display: block;
+      min-height: 154px;
+      padding: 24px;
+      color: inherit;
+      background: var(--ios-card-solid);
+      border: 1px solid rgba(0, 0, 0, 0.04);
+      border-radius: var(--ios-radius);
+      box-shadow: var(--ios-shadow);
+      text-decoration: none;
+      transition: transform .18s ease, box-shadow .18s ease;
+    }
+    .overview-card:hover { transform: translateY(-2px); box-shadow: 0 16px 42px rgba(0, 0, 0, 0.08); }
+    .overview-card small { color: var(--ios-blue); font-weight: 650; }
+    .overview-card h3 { margin: 16px 0 7px; font-size: 23px; }
+    .overview-card p { margin: 0; color: var(--ios-secondary); line-height: 1.5; }
+    .day-list { display: grid; gap: 10px; margin: 18px 0 30px; }
+    .day-card {
+      display: grid;
+      grid-template-columns: 92px minmax(0, 1fr) 112px;
+      gap: 18px;
+      align-items: start;
+      padding: 19px 20px;
+      background: var(--ios-card-solid);
+      border: 1px solid rgba(0, 0, 0, 0.04);
+      border-radius: 18px;
+    }
+    .day-label { color: var(--ios-blue); font-weight: 720; font-variant-numeric: tabular-nums; }
+    .day-route { font-size: 16px; font-weight: 650; }
+    .day-note { margin-top: 5px; color: var(--ios-secondary); font-size: 14px; }
+    .day-time { color: var(--ios-tertiary); font-size: 13px; text-align: right; }
+    .stay-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; margin: 18px 0 30px; }
+    .stay-card {
+      position: relative;
+      min-height: 154px;
+      padding: 21px;
+      background: var(--ios-card-solid);
+      border: 1px solid rgba(0, 0, 0, 0.04);
+      border-radius: 18px;
+    }
+    .stay-day { color: var(--ios-blue); font-size: 13px; font-weight: 680; }
+    .stay-place { margin: 8px 0; font-size: 17px; font-weight: 660; }
+    .stay-price { color: var(--ios-secondary); font-size: 14px; }
+    .stay-card a { display: inline-block; margin-top: 12px; font-size: 14px; text-decoration: none; }
+    details.data-disclosure {
+      margin: 14px 0;
+      background: var(--ios-card-solid);
+      border: 1px solid rgba(0, 0, 0, 0.04);
+      border-radius: 18px;
+      overflow: clip;
+    }
+    details.data-disclosure summary {
+      position: relative;
+      padding: 18px 48px 18px 20px;
+      cursor: pointer;
+      list-style: none;
+      font-weight: 630;
+    }
+    details.data-disclosure summary::-webkit-details-marker { display: none; }
+    details.data-disclosure summary::after {
+      content: "＋";
+      position: absolute;
+      right: 20px;
+      color: var(--ios-tertiary);
+      font-size: 20px;
+      font-weight: 400;
+      transition: transform .2s ease;
+    }
+    details.data-disclosure[open] summary::after { transform: rotate(45deg); }
+    details.data-disclosure[open] summary { border-bottom: 1px solid var(--ios-separator); }
+    .table-wrap {
+      width: 100%;
+      margin: 0;
+      overflow-x: auto;
+    }
+    table { width: 100%; min-width: 720px; border-collapse: collapse; background: transparent; }
+    th, td { padding: 13px 16px; border-bottom: 1px solid var(--ios-separator); vertical-align: top; text-align: left; }
+    th { color: var(--ios-secondary); font-size: 12px; font-weight: 650; white-space: nowrap; }
+    td { font-size: 13px; }
+    tr:last-child td { border-bottom: 0; }
+    ul, ol { padding-left: 24px; }
+    li { margin: 7px 0; }
+    .task-list-item {
+      margin: 8px 0;
+      padding: 14px 16px;
+      background: var(--ios-card-solid);
+      border-radius: 14px;
+      list-style: none;
+    }
+    .contains-task-list { padding-left: 0; }
+    input[type="checkbox"] { width: 17px; height: 17px; margin: 0 9px 0 0; accent-color: var(--ios-blue); vertical-align: -3px; }
+    code { padding: 2px 5px; background: rgba(118, 118, 128, 0.12); border-radius: 6px; }
+    @media (max-width: 700px) {
+      body { font-size: 14px; }
+      .topbar-inner { width: calc(100% - 24px); }
+      .brand { display: none; }
+      .nav-links { width: 100%; justify-content: center; }
+      main { width: calc(100% - 28px); padding: 46px 0 68px; }
+      .plan-overview, .stay-grid { grid-template-columns: 1fr; }
+      .plan-overview { margin-bottom: 54px; }
+      .plan-title { margin-top: 60px; }
+      h2 { margin-top: 40px; font-size: 21px; }
+      .day-card { grid-template-columns: 68px minmax(0, 1fr); gap: 12px; }
+      .day-time { grid-column: 2; text-align: left; }
+      table { min-width: 660px; }
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --ios-bg: #000000;
+        --ios-card: rgba(28, 28, 30, 0.9);
+        --ios-card-solid: #1c1c1e;
+        --ios-label: #f5f5f7;
+        --ios-secondary: #aeaeb2;
+        --ios-tertiary: #8e8e93;
+        --ios-blue: #0a84ff;
+        --ios-blue-soft: rgba(10, 132, 255, 0.16);
+        --ios-separator: rgba(84, 84, 88, 0.65);
+        --ios-warning: #ffd60a;
+        --ios-warning-bg: rgba(255, 214, 10, 0.12);
+        --ios-shadow: none;
+      }
+      .topbar { background: rgba(0, 0, 0, 0.72); }
+      .overview-card, .day-card, .stay-card, details.data-disclosure { border-color: rgba(255, 255, 255, 0.07); }
+    }
+    @media print {
+      @page { size: A4; margin: 13mm; }
+      body { background: white; font-size: 10pt; }
+      .topbar, .plan-overview { display: none; }
+      main { width: 100%; margin: 0; padding: 0; }
+      h1 { font-size: 23pt; }
+      h2 { break-after: avoid; }
+      h3 { break-after: avoid; }
+      blockquote, tr, .day-card, .stay-card { break-inside: avoid; }
+      details.data-disclosure > * { display: block !important; }
+      .table-wrap { overflow: visible; }
+      table { min-width: 0; font-size: 8pt; }
+      th { color: #444 !important; }
+      a { color: inherit; text-decoration: none; }
+    }
+  </style>
+</head>
+<body>
+  <nav class="topbar" aria-label="行程导航">
+    <div class="topbar-inner">
+      <span class="brand">New Zealand · 2026</span>
+      <div class="nav-links">
+        <a href="#north-island">北岛</a>
+        <a href="#south-island">南岛</a>
+        <a href="#通用必办事项">出发清单</a>
+      </div>
+    </div>
+  </nav>
+  <main><h1>新西兰 7晚8日 · 两套方案（v3.1 修订版）</h1>
+<blockquote>
+<p>行程 9/19 出发、9/26 返回墨尔本（周六）｜共7晚、跨8个日历日｜8人｜澳航 Qantas｜两方案上下排列</p>
+</blockquote>
+<h2>🛂 入境政策（新规，已核实）</h2>
+<p>自 2025 年 11 月 3 日起试行 12 个月：<strong>中国护照 + 有效且属于合资格类别的澳洲签证（含学生签）+ 从澳洲出发</strong>，赴新<strong>免新西兰旅游签</strong>，只需申请 <strong>NZeTA</strong>（可在新停留最多 3 个月）：<a href="https://nzeta.immigration.govt.nz">https://nzeta.immigration.govt.nz</a></p>
+<p>⚠️ 条件：① 澳洲签证须在登机时有效且属于 visitor/work/student/family 等合资格类别；② 必须从澳洲出发，不能只是经澳洲转机；③ 仍需 NZeTA。官方建议预留最多 72 小时，本行程建议提前 1–2 周申请。若任一条件不满足，仍须办新西兰旅游签：<a href="https://www.immigration.govt.nz/new-zealand-visas/visas/visitor-visa">https://www.immigration.govt.nz/new-zealand-visas/visas/visitor-visa</a>
+官方来源：<a href="https://www.immigration.govt.nz/about-us/news-centre/easier-travel-from-australia-to-new-zealand-for-chinese-visitors/">https://www.immigration.govt.nz/about-us/news-centre/easier-travel-from-australia-to-new-zealand-for-chinese-visitors/</a></p>
+<hr>
+<h1>方案一 · 北岛（奥克兰往返环线）· 魔戒三站 + 火山地热</h1>
+<h2>航班（墨尔本 MEL ↔ 奥克兰 AKL，Qantas 系；班次和价格须在付款前复核）</h2>
+<table>
+<thead>
+<tr>
+<th>去程 9/19(六)</th>
+<th>时间</th>
+<th>说明</th>
+<th>回程 9/26(六)</th>
+<th>时间</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>QF 直飞</td>
+<td>09:25 → 15:05</td>
+<td>抵达较晚，不宜再赶长途</td>
+<td>QF 直飞 ⭐</td>
+<td>13:40 → 15:50</td>
+<td>推荐</td>
+</tr>
+<tr>
+<td>QF 直飞 ⭐</td>
+<td>06:35 → 12:15</td>
+<td>若首晚住 Matamata，优先选此班</td>
+<td>QF 直飞</td>
+<td>06:10 → 08:20</td>
+<td>太早</td>
+</tr>
+<tr>
+<td>QF 直飞</td>
+<td>17:00 → 22:40</td>
+<td>傍晚班</td>
+<td>QF 直飞</td>
+<td>15:15 → 17:25</td>
+<td>Qantas 执飞</td>
+</tr>
+<tr>
+<td>JQ/QF共享</td>
+<td>23:55 → 次日05:30</td>
+<td>红眼</td>
+<td>QF 经悉尼</td>
+<td>06:45 → 12:40</td>
+<td>SYD 转机</td>
+</tr>
+</tbody></table>
+<ul>
+<li>票价参考（含税，官网实时为准）：去程约 A$770–1,119/人、回程约 A$845–1,028/人。按上述“每人价格”相加，8人往返应约 <strong>A$12,920–17,176</strong>，原 v3.0 的 A$6,500–8,500 与单价矛盾，不能用于下单。建议优先查 <strong>去程最早直飞 + 回程 13:40 左右直飞</strong>。</li>
+<li>航班链接（Google Flights，点开看当天全部班次）：<ul>
+<li>去程：<a href="https://www.google.com/travel/flights?q=Flights%20from%20Melbourne%20to%20Auckland%20on%202026-09-19">https://www.google.com/travel/flights?q=Flights%20from%20Melbourne%20to%20Auckland%20on%202026-09-19</a></li>
+<li>回程：<a href="https://www.google.com/travel/flights?q=Flights%20from%20Auckland%20to%20Melbourne%20on%202026-09-26">https://www.google.com/travel/flights?q=Flights%20from%20Auckland%20to%20Melbourne%20on%202026-09-26</a></li>
+<li>Qantas 官网：<a href="https://www.qantas.com/au/en.html">https://www.qantas.com/au/en.html</a></li>
+</ul>
+</li>
+</ul>
+<h2>行程（多数日≤3.5h；最后返奥克兰约3.5–4.5h）</h2>
+<table>
+<thead>
+<tr>
+<th>天</th>
+<th>行程</th>
+<th>车程</th>
+<th>亮点 / 住</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>D1 9/19</td>
+<td>奥克兰 → 马塔马塔 Matamata</td>
+<td>约2–2.5h</td>
+<td><strong>仅适合较早航班</strong>；避免入夜后疲劳驾驶</td>
+</tr>
+<tr>
+<td>D2 9/20</td>
+<td><strong>霍比特人村</strong>导览（约3h）→ 罗托鲁瓦</td>
+<td>1h</td>
+<td>红木森林，住罗托鲁瓦</td>
+</tr>
+<tr>
+<td>D3 9/21</td>
+<td><strong>怀奥塔普 Wai-O-Tapu</strong>（约3h）→ 罗托鲁瓦湖</td>
+<td>—</td>
+<td>香槟池、彩色地热池，住罗托鲁瓦（连2晚）</td>
+</tr>
+<tr>
+<td>D4 9/22</td>
+<td>罗托鲁瓦 → 胡卡瀑布 → Desert Road 沿途观景 → 汤加里罗</td>
+<td>约3h</td>
+<td>陶波湖、Mt Ngauruhoe/“末日火山”远景；住汤加里罗</td>
+</tr>
+<tr>
+<td>D5 9/23</td>
+<td>汤加里罗天气机动日</td>
+<td>—</td>
+<td>好天气走 Taranaki Falls＋Lower Tama Lake 方向；不默认去 Upper Tama，住汤加里罗（连2晚）</td>
+</tr>
+<tr>
+<td>D6 9/24</td>
+<td>汤加里罗备选活动 → 陶波温泉</td>
+<td>约1.5h</td>
+<td>遇冰雪/大风改 Whakapapa 短线、游客中心或直接去陶波；住陶波</td>
+</tr>
+<tr>
+<td>D7 9/25</td>
+<td>陶波 → 奥克兰</td>
+<td>约3.5–4.5h</td>
+<td>预留堵车和休息时间，住机场附近，次日返程</td>
+</tr>
+</tbody></table>
+<blockquote>
+<p>⚠️ 9月仍是汤加里罗冬季高山条件。Upper Tama Lake 支线如有积雪或结冰，需要冬季高山技能与装备；普通旅行团不要把它列为必做项目。出发前向 DOC 游客中心确认天气、积雪和步道状态。</p>
+</blockquote>
+<h2>北岛住宿（8人整栋）</h2>
+<table>
+<thead>
+<tr>
+<th>晚</th>
+<th>地点/日期</th>
+<th>Airbnb 搜索</th>
+<th>目标价/晚</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>D1</td>
+<td>Matamata 9/19–20</td>
+<td><a href="https://www.airbnb.com/s/Matamata--New-Zealand/homes?checkin=2026-09-19&checkout=2026-09-20&adults=8&room_types%5B%5D=Entire%20home%2Fapt">https://www.airbnb.com/s/Matamata--New-Zealand/homes?checkin=2026-09-19&amp;checkout=2026-09-20&amp;adults=8&amp;room_types%5B%5D=Entire%20home%2Fapt</a></td>
+<td>NZD 400–700</td>
+</tr>
+<tr>
+<td>D2–D3</td>
+<td>罗托鲁瓦 9/20–22</td>
+<td><a href="https://www.airbnb.com/s/Rotorua--New-Zealand/homes?checkin=2026-09-20&checkout=2026-09-22&adults=8&room_types%5B%5D=Entire%20home%2Fapt">https://www.airbnb.com/s/Rotorua--New-Zealand/homes?checkin=2026-09-20&amp;checkout=2026-09-22&amp;adults=8&amp;room_types%5B%5D=Entire%20home%2Fapt</a></td>
+<td>NZD 500–800</td>
+</tr>
+<tr>
+<td>D4–D5</td>
+<td>汤加里罗 9/22–24</td>
+<td><a href="https://www.airbnb.com/s/National-Park--New-Zealand/homes?checkin=2026-09-22&checkout=2026-09-24&adults=8&room_types%5B%5D=Entire%20home%2Fapt">https://www.airbnb.com/s/National-Park--New-Zealand/homes?checkin=2026-09-22&amp;checkout=2026-09-24&amp;adults=8&amp;room_types%5B%5D=Entire%20home%2Fapt</a></td>
+<td>NZD 450–700</td>
+</tr>
+<tr>
+<td>D6</td>
+<td>陶波 9/24–25</td>
+<td><a href="https://www.airbnb.com/s/Taupo--New-Zealand/homes?checkin=2026-09-24&checkout=2026-09-25&adults=8&room_types%5B%5D=Entire%20home%2Fapt">https://www.airbnb.com/s/Taupo--New-Zealand/homes?checkin=2026-09-24&amp;checkout=2026-09-25&amp;adults=8&amp;room_types%5B%5D=Entire%20home%2Fapt</a></td>
+<td>NZD 450–750</td>
+</tr>
+<tr>
+<td>D7</td>
+<td>奥克兰机场 9/25–26</td>
+<td><a href="https://www.airbnb.com/s/Auckland-Airport--New-Zealand/homes?checkin=2026-09-25&checkout=2026-09-26&adults=8&room_types%5B%5D=Entire%20home%2Fapt">https://www.airbnb.com/s/Auckland-Airport--New-Zealand/homes?checkin=2026-09-25&amp;checkout=2026-09-26&amp;adults=8&amp;room_types%5B%5D=Entire%20home%2Fapt</a></td>
+<td>NZD 300–500</td>
+</tr>
+</tbody></table>
+<p>🎬 门票：霍比特人村约 A$90/人、怀奥塔普约 A$45/人，都要提前订场次；风云顶在 Desert Road 沿途免费。</p>
+<h2>北岛预算（机票+住宿，8人）</h2>
+<ul>
+<li>机票：按上文单价临时纠偏为 <strong>A$12,920–17,176</strong>；最终以 Qantas 付款页8人含税总价为准</li>
+<li>住宿7晚：NZD 3,050–4,950 ≈ A$2,800–4,550</li>
+<li><strong>机票+住宿暂估 A$15,720–21,726（人均约 A$1,965–2,716）</strong></li>
+</ul>
+<blockquote>
+<p>💡 北岛优势：通常比南岛节奏更松、冰雪公路更少，含魔戒取景氛围、火山地热和温泉。但在实时锁价前，不应写死“机票便宜约 A$2,000”。</p>
+</blockquote>
+<hr>
+<h1>方案二 · 南岛（基督城进 · 皇后镇出）· 雪山冰川湖海</h1>
+<h2>航班（MEL→CHC 9/19；ZQN→MEL 9/26，Qantas 系；班次和价格须在付款前复核）</h2>
+<table>
+<thead>
+<tr>
+<th>去程 9/19(六)</th>
+<th>时间</th>
+<th>说明</th>
+<th>回程 9/26(六)</th>
+<th>时间</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>QF 直飞 ⭐</td>
+<td>09:15 → 14:45</td>
+<td>推荐</td>
+<td>QF 直飞 ⭐</td>
+<td>13:30 → 15:00</td>
+<td>推荐</td>
+</tr>
+<tr>
+<td>QF/JQ 直飞</td>
+<td>11:05 → 16:25</td>
+<td>Jetstar 执飞</td>
+<td>QF 经悉尼</td>
+<td>09:05 → 14:15</td>
+<td>SYD 转机</td>
+</tr>
+<tr>
+<td>QF 经悉尼</td>
+<td>16:00 → 次日00:20</td>
+<td>到太晚</td>
+<td>QF/ANZ 经奥克兰</td>
+<td>12:10 → 17:45</td>
+<td>AKL 转机</td>
+</tr>
+</tbody></table>
+<ul>
+<li>票价参考（含税）：去程约 A$984/人、回程约 A$1,164/人。若确为每人单程价格，则8人往返约 <strong>A$17,184</strong>，原 v3.0 的 A$8,000–9,500 与单价矛盾。最终必须以官网8人含税总价为准。</li>
+<li>航班链接：<ul>
+<li>去程：<a href="https://www.google.com/travel/flights?q=Flights%20from%20Melbourne%20to%20Christchurch%20on%202026-09-19">https://www.google.com/travel/flights?q=Flights%20from%20Melbourne%20to%20Christchurch%20on%202026-09-19</a></li>
+<li>回程：<a href="https://www.google.com/travel/flights?q=Flights%20from%20Queenstown%20to%20Melbourne%20on%202026-09-26">https://www.google.com/travel/flights?q=Flights%20from%20Queenstown%20to%20Melbourne%20on%202026-09-26</a></li>
+</ul>
+</li>
+</ul>
+<h2>行程（安全优先修订；D7为9–11小时长途活动日）</h2>
+<table>
+<thead>
+<tr>
+<th>天</th>
+<th>行程</th>
+<th>车程</th>
+<th>亮点 / 住</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>D1 9/19</td>
+<td>基督城机场 → Geraldine（推荐）</td>
+<td>约1.5–2h</td>
+<td>14:45落地后不再硬赶蒂卡波；住 Geraldine</td>
+</tr>
+<tr>
+<td>D2 9/20</td>
+<td>Geraldine → 蒂卡波湖 → 库克山</td>
+<td>约2.5–3h净驾驶</td>
+<td>蒂卡波湖、普卡基湖；下午按天气走胡克谷短段/Kea Point，住库克山村</td>
+</tr>
+<tr>
+<td>D3 9/21</td>
+<td>库克山 → 普卡基湖 → 瓦纳卡</td>
+<td>约2.5–3h</td>
+<td>早晨给库克山第二次天气机会，住瓦纳卡</td>
+</tr>
+<tr>
+<td>D4 9/22</td>
+<td>瓦纳卡整天</td>
+<td>—</td>
+<td>湖边、Mount Iron 等稳妥活动；Roy&#39;s Peak 仅限天气、路况和体能都合适，住瓦纳卡（连2晚）</td>
+</tr>
+<tr>
+<td>D5 9/23</td>
+<td>瓦纳卡 → 皇后镇</td>
+<td>约1.5h</td>
+<td>Crown Range 无冰雪时走；恶劣天气改走 Cromwell/SH6</td>
+</tr>
+<tr>
+<td>D6 9/24</td>
+<td>皇后镇 → 蒂阿瑙</td>
+<td>2h</td>
+<td>蒂阿瑙湖+萤火虫洞，住蒂阿瑙</td>
+</tr>
+<tr>
+<td>D7 9/25</td>
+<td>蒂阿瑙 → 米尔福德峡湾 → 皇后镇</td>
+<td>约6–7h净驾驶</td>
+<td>加游船和停靠约9–11h；优先专业巴士/有冬季经验司机，住皇后镇</td>
+</tr>
+</tbody></table>
+<blockquote>
+<p>⚠️ 若坚持 D1 住蒂卡波，必须满足：航班准点、最迟约15:45前离开机场、司机状态良好、天气及 SH8 路况正常；否则当晚改住 Geraldine。9月不建议首次在新西兰驾驶12座小巴摸黑走高地公路。</p>
+</blockquote>
+<h2>南岛住宿（8人整栋）</h2>
+<table>
+<thead>
+<tr>
+<th>晚</th>
+<th>地点/日期</th>
+<th>Airbnb 搜索</th>
+<th>目标价/晚</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>D1</td>
+<td>Geraldine 9/19–20（安全版）</td>
+<td><a href="https://www.airbnb.com/s/Geraldine--New-Zealand/homes?checkin=2026-09-19&checkout=2026-09-20&adults=8&room_types%5B%5D=Entire%20home%2Fapt">https://www.airbnb.com/s/Geraldine--New-Zealand/homes?checkin=2026-09-19&amp;checkout=2026-09-20&amp;adults=8&amp;room_types%5B%5D=Entire%20home%2Fapt</a></td>
+<td>先查8人整栋；若改回蒂卡波再用原搜索条件</td>
+</tr>
+<tr>
+<td>D2</td>
+<td>库克山 9/20–21</td>
+<td><a href="https://www.airbnb.com/s/Mount-Cook-Village--New-Zealand/homes?checkin=2026-09-20&checkout=2026-09-21&adults=8&room_types%5B%5D=Entire%20home%2Fapt">https://www.airbnb.com/s/Mount-Cook-Village--New-Zealand/homes?checkin=2026-09-20&amp;checkout=2026-09-21&amp;adults=8&amp;room_types%5B%5D=Entire%20home%2Fapt</a></td>
+<td>NZD 600–950（整栋稀缺）</td>
+</tr>
+<tr>
+<td>D3–D4</td>
+<td>瓦纳卡 9/21–23</td>
+<td><a href="https://www.airbnb.com/s/Wanaka--New-Zealand/homes?checkin=2026-09-21&checkout=2026-09-23&adults=8&room_types%5B%5D=Entire%20home%2Fapt">https://www.airbnb.com/s/Wanaka--New-Zealand/homes?checkin=2026-09-21&amp;checkout=2026-09-23&amp;adults=8&amp;room_types%5B%5D=Entire%20home%2Fapt</a></td>
+<td>NZD 500–850</td>
+</tr>
+<tr>
+<td>D5</td>
+<td>皇后镇 9/23–24</td>
+<td><a href="https://www.airbnb.com/s/Queenstown--New-Zealand/homes?checkin=2026-09-23&checkout=2026-09-24&adults=8&room_types%5B%5D=Entire%20home%2Fapt">https://www.airbnb.com/s/Queenstown--New-Zealand/homes?checkin=2026-09-23&amp;checkout=2026-09-24&amp;adults=8&amp;room_types%5B%5D=Entire%20home%2Fapt</a></td>
+<td>NZD 500–800</td>
+</tr>
+<tr>
+<td>D6</td>
+<td>蒂阿瑙 9/24–25</td>
+<td><a href="https://www.airbnb.com/s/Te-Anau--New-Zealand/homes?checkin=2026-09-24&checkout=2026-09-25&adults=8&room_types%5B%5D=Entire%20home%2Fapt">https://www.airbnb.com/s/Te-Anau--New-Zealand/homes?checkin=2026-09-24&amp;checkout=2026-09-25&amp;adults=8&amp;room_types%5B%5D=Entire%20home%2Fapt</a></td>
+<td>NZD 450–750</td>
+</tr>
+<tr>
+<td>D7</td>
+<td>皇后镇 9/25–26</td>
+<td><a href="https://www.airbnb.com/s/Queenstown--New-Zealand/homes?checkin=2026-09-25&checkout=2026-09-26&adults=8&room_types%5B%5D=Entire%20home%2Fapt">https://www.airbnb.com/s/Queenstown--New-Zealand/homes?checkin=2026-09-25&amp;checkout=2026-09-26&amp;adults=8&amp;room_types%5B%5D=Entire%20home%2Fapt</a></td>
+<td>NZD 500–800</td>
+</tr>
+</tbody></table>
+<h2>南岛预算（机票+住宿，8人）</h2>
+<ul>
+<li>机票：按上文单价临时纠偏约 <strong>A$17,184</strong>；最终以官网8人含税总价为准</li>
+<li>住宿7晚：原方案约 NZD 3,600–5,900 ≈ A$3,300–5,430；D1改 Geraldine 后需按实际房源重算</li>
+<li><strong>机票+住宿暂估约 A$20,500–22,600（人均约 A$2,560–2,825）</strong></li>
+</ul>
+<hr>
+<h1>通用：租车 / 包车网站（口碑筛选）</h1>
+<h2>一、新西兰本地租车（自驾，能租12座小巴）</h2>
+<table>
+<thead>
+<tr>
+<th>网站</th>
+<th>网址</th>
+<th>口碑/特点</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>GO Rentals</strong> ⭐</td>
+<td><a href="https://www.gorentals.co.nz/">gorentals.co.nz</a></td>
+<td>4.7/5（13,197条评价）；含无限里程+基础保险</td>
+</tr>
+<tr>
+<td><strong>Apex</strong> ⭐</td>
+<td><a href="https://www.apexrentals.co.nz/">apexrentals.co.nz</a></td>
+<td>性价比高，有8/12座车，有中文站</td>
+</tr>
+<tr>
+<td>Ezi Car Rental</td>
+<td><a href="https://www.ezicarrental.co.nz/">ezicarrental.co.nz</a></td>
+<td>中高端，服务好</td>
+</tr>
+<tr>
+<td>Omega</td>
+<td><a href="https://www.omegarentalcars.com/">omegarentalcars.com</a></td>
+<td>老牌经济型</td>
+</tr>
+<tr>
+<td>Jucy</td>
+<td><a href="https://www.jucy.co.nz/">jucy.co.nz</a></td>
+<td>预算型</td>
+</tr>
+<tr>
+<td>Rental Cars 聚合</td>
+<td><a href="https://www.rentalcars.com/">rentalcars.com</a></td>
+<td>一键比价，注意隐藏费</td>
+</tr>
+</tbody></table>
+<blockquote>
+<p>国际大牌 Budget/Hertz/Avis 网点最多但贵 20–30%、隐性费用多，不推荐首选。</p>
+</blockquote>
+<h2>二、中国平台（租车 + 包车，中文客服）</h2>
+<table>
+<thead>
+<tr>
+<th>平台</th>
+<th>网址</th>
+<th>用途</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>携程</td>
+<td><a href="https://www.ctrip.com/">ctrip.com</a></td>
+<td>华人包车最集中，评分可筛</td>
+</tr>
+<tr>
+<td>飞猪</td>
+<td><a href="https://www.fliggy.com/">fliggy.com</a></td>
+<td>包车游/租车产品多</td>
+</tr>
+<tr>
+<td>马蜂窝</td>
+<td><a href="https://www.mafengwo.cn/">mafengwo.cn</a></td>
+<td>看真实游记</td>
+</tr>
+<tr>
+<td>Klook</td>
+<td><a href="https://www.klook.com/zh-CN/">klook.com/zh-CN</a></td>
+<td>中文界面，售后有保障</td>
+</tr>
+</tbody></table>
+<h2>三、行李容量 &amp; 车型推荐（8人 × 24–27寸托运箱）</h2>
+<table>
+<thead>
+<tr>
+<th>方案</th>
+<th>能否装</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>2辆轿车</td>
+<td>❌</td>
+<td>后备箱最多2个</td>
+</tr>
+<tr>
+<td>2辆中型SUV</td>
+<td>⚠️ 勉强</td>
+<td>1个占后排脚垫</td>
+</tr>
+<tr>
+<td>2辆大型7座SUV（放倒第三排）</td>
+<td>✅ 舒适</td>
+<td>价格≈小巴</td>
+</tr>
+<tr>
+<td><strong>12座小巴</strong></td>
+<td>✅ 刚好</td>
+<td>后排行李区竖放叠放</td>
+</tr>
+<tr>
+<td>包车（12座）</td>
+<td>✅</td>
+<td>司机帮装卸</td>
+</tr>
+<tr>
+<td>包车（2辆7座SUV）</td>
+<td>✅ 最舒服</td>
+<td>一车4人+4箱，可分组</td>
+</tr>
+</tbody></table>
+<h2>四、交通成本对比（8人，7天，NZD）</h2>
+<table>
+<thead>
+<tr>
+<th>方案</th>
+<th>7天合计</th>
+<th>人均(7天)</th>
+<th>人均/天</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>12座小巴自驾 ⭐</td>
+<td>2,200–3,500</td>
+<td>NZD 275–440</td>
+<td>NZD 40–65</td>
+</tr>
+<tr>
+<td>2辆7座SUV自驾</td>
+<td>2,400–3,600</td>
+<td>NZD 300–450</td>
+<td>NZD 45–65</td>
+</tr>
+<tr>
+<td>12座小巴包车</td>
+<td>6,500–9,000</td>
+<td>NZD 810–1,125</td>
+<td>NZD 115–160</td>
+</tr>
+<tr>
+<td>2辆7座SUV包车</td>
+<td>9,800–15,400</td>
+<td>NZD 1,225–1,925</td>
+<td>NZD 175–275</td>
+</tr>
+</tbody></table>
+<blockquote>
+<p>南岛单辆车按本路线约 <strong>1,150–1,300km</strong> 估算；两辆SUV的累计车辆公里数约2,300–2,600km。油费、异地还车费和防滑链费用必须分别询价，不能把两辆车的总里程套到一辆小巴上。北岛差额也应在取得同口径报价后再比较。</p>
+</blockquote>
+<h2>五、全程总成本（暂不采用 v3.0 总表）</h2>
+<p>v3.0 的总表建立在错误的机票合计上，暂时删除，避免误导。最终总成本按以下公式计算：</p>
+<blockquote>
+<p><strong>8人总成本 = 官网8人含税机票 + 7晚住宿最终结算价 + 同口径交通报价 + 活动门票 + 餐饮</strong></p>
+</blockquote>
+<p>取得机票和车辆正式报价后再恢复对比表；换算时使用付款当天汇率，不固定采用 1 NZD = 0.92 AUD。</p>
+<blockquote>
+<p>未含：餐饮（约A$700–1,000/人·7天）、活动门票（约A$150–400/人）。由于机票预算已上调，v3.0 所写“南岛实际人均 A$2,500–3,200”也应作废，待正式报价后重算。</p>
+</blockquote>
+<hr>
+<h1>通用：下单前检查清单（每栋过一遍）</h1>
+<ul>
+<li><input disabled="" type="checkbox"> <strong>床铺配置确认</strong>：4间真卧室；混合住宿问房东 &quot;Can the super king beds be split into two singles?&quot;</li>
+<li><input disabled="" type="checkbox"> 真实床位：sleeps 8 可能含沙发床/加床</li>
+<li><input disabled="" type="checkbox"> 卫生间 ≥2 个</li>
+<li><input disabled="" type="checkbox"> off-street parking：能停12座小巴</li>
+<li><input disabled="" type="checkbox"> 自助入住：密码锁/钥匙盒，晚到能进</li>
+<li><input disabled="" type="checkbox"> 费用：清洁费、床品费、Wifi 是否另收</li>
+<li><input disabled="" type="checkbox"> 厨房/烧烤：BBQ炉、烤箱、双门冰箱</li>
+<li><input disabled="" type="checkbox"> 暖气：9月高山地区夜间可能接近或低于0℃，确认主要卧室和公共区域都有有效供暖</li>
+<li><input disabled="" type="checkbox"> 司机房：包车司机那间是否含在房费内</li>
+</ul>
+<h1>通用：必办事项</h1>
+<ol>
+<li><input disabled="" type="checkbox"> <strong>入境 NZeTA</strong>：中国护照+有效合资格澳洲签证+从澳洲出发，可按试行政策申请 NZeTA；官方处理时间最多约72小时，建议提前1–2周。出发前再次核对政策仍有效</li>
+<li><input disabled="" type="checkbox"> <strong>驾照</strong>：当前 NZTA 规则下，有效澳洲 full car licence 每次入境后通常可使用18个月；必须携带实体驾照。P牌/临时驾照能否租车由租车公司和保险条款决定</li>
+<li><input disabled="" type="checkbox"> <strong>小巴驾照</strong>：私人自驾前先让租车公司以书面确认“澳洲C类 full licence 可驾驶所订具体车型”，同时确认车辆总重、座位数、最低年龄、持照年限和保险；不要仅凭“12座”口头判断</li>
+<li><input disabled="" type="checkbox"> 包车/租车比价：同口径问油费/里程/司机住宿/渡轮/异地还车</li>
+<li><input disabled="" type="checkbox"> 热门项目提前订：霍比特人村、Wai-O-Tapu、蒂阿瑙萤火虫洞、米尔福德游船（本路线不含凯库拉，删除“观鲸”）</li>
+<li><input disabled="" type="checkbox"> 9月早春：防水防风外层+抓绒+薄羽绒+防水鞋；南北岛高山均可能出现雪、冰和强风</li>
+<li><input disabled="" type="checkbox"> 出发前24小时及当天早晨检查：DOC步道状态、MetService天气、NZTA道路状态；南岛重点看 SH8、SH80、Crown Range 和 SH94 Milford Road</li>
+</ol>
+</main>
+  <script>
+    const titles = document.querySelectorAll("main > h1");
+    if (titles[0]) titles[0].classList.add("doc-title");
+    if (titles[1]) { titles[1].classList.add("plan-title"); titles[1].id = "north-island"; }
+    if (titles[2]) { titles[2].classList.add("plan-title"); titles[2].id = "south-island"; }
+    Array.from(titles).slice(3).forEach((title) => title.classList.add("utility-title"));
+    Array.from(titles).forEach((title) => {
+      if (title.textContent.includes("通用：必办事项")) title.id = "通用必办事项";
+    });
+
+    const firstQuote = document.querySelector("main > blockquote");
+    if (firstQuote) {
+      firstQuote.classList.add("hero-meta");
+      const overview = document.createElement("section");
+      overview.className = "plan-overview";
+      overview.setAttribute("aria-label", "两套方案概览");
+      overview.innerHTML = '<a class="overview-card" href="#north-island">' +
+        '<small>方案一</small><h3>北岛 · 轻松人文</h3>' +
+        '<p>魔戒、地热与温泉。路线更从容，冬季公路压力相对较低。</p></a>' +
+        '<a class="overview-card" href="#south-island">' +
+        '<small>方案二</small><h3>南岛 · 高山湖海</h3>' +
+        '<p>雪山、冰川湖与峡湾。景观更强，但需要为9月天气留出余量。</p></a>';
+      firstQuote.after(overview);
+    }
+
+    function nearestHeading(table) {
+      let node = table.previousElementSibling;
+      while (node) {
+        if (/^H[1-3]$/.test(node.tagName)) return node.textContent.trim();
+        node = node.previousElementSibling;
+      }
+      return "详细数据";
+    }
+
+    function cellHTML(cell) { return cell ? cell.innerHTML.trim() : ""; }
+
+    document.querySelectorAll("table").forEach((table) => {
+      const headers = Array.from(table.querySelectorAll("thead th")).map((th) => th.textContent.trim());
+      const rows = Array.from(table.querySelectorAll("tbody tr"));
+
+      if (headers[0] === "天") {
+        const list = document.createElement("div");
+        list.className = "day-list";
+        rows.forEach((row) => {
+          const cells = row.querySelectorAll("td");
+          const card = document.createElement("article");
+          card.className = "day-card";
+          card.innerHTML = '<div class="day-label">' + cellHTML(cells[0]) + '</div><div><div class="day-route">' +
+            cellHTML(cells[1]) + '</div><div class="day-note">' + cellHTML(cells[3]) +
+            '</div></div><div class="day-time">' + cellHTML(cells[2]) + '</div>';
+          list.appendChild(card);
+        });
+        table.replaceWith(list);
+        return;
+      }
+
+      if (headers[0] === "晚") {
+        const grid = document.createElement("div");
+        grid.className = "stay-grid";
+        rows.forEach((row) => {
+          const cells = row.querySelectorAll("td");
+          const card = document.createElement("article");
+          card.className = "stay-card";
+          card.innerHTML = '<div class="stay-day">' + cellHTML(cells[0]) + '</div><div class="stay-place">' +
+            cellHTML(cells[1]) + '</div><div class="stay-price">' + cellHTML(cells[3]) +
+            '</div><div>' + cellHTML(cells[2]) + '</div>';
+          card.querySelectorAll("a").forEach((link) => link.textContent = "查看房源 ↗");
+          grid.appendChild(card);
+        });
+        table.replaceWith(grid);
+        return;
+      }
+
+      const wrapper = document.createElement("div");
+      wrapper.className = "table-wrap";
+      table.parentNode.insertBefore(wrapper, table);
+      wrapper.appendChild(table);
+      const disclosure = document.createElement("details");
+      disclosure.className = "data-disclosure";
+      const summary = document.createElement("summary");
+      summary.textContent = nearestHeading(wrapper) + " · 查看详细表格";
+      wrapper.parentNode.insertBefore(disclosure, wrapper);
+      disclosure.append(summary, wrapper);
+    });
+
+    document.querySelectorAll('li > input[type="checkbox"]').forEach((checkbox) => {
+      checkbox.parentElement.classList.add("task-list-item");
+      checkbox.parentElement.parentElement.classList.add("contains-task-list");
+    });
+    document.querySelectorAll('a[href^="http"]').forEach((link) => {
+      link.target = "_blank";
+      link.rel = "noopener noreferrer";
+      if (link.textContent.trim().startsWith("http")) link.textContent = "打开官方链接 ↗";
+    });
+  </script>
+</body>
+</html>
