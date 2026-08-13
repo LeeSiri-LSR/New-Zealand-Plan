@@ -760,25 +760,25 @@
 <hr>
 <h1>通用：下单前检查清单（每栋过一遍）</h1>
 <ul>
-<li><input disabled="" type="checkbox"> <strong>床铺配置确认</strong>：4间真卧室；混合住宿问房东 &quot;Can the super king beds be split into two singles?&quot;</li>
-<li><input disabled="" type="checkbox"> 真实床位：sleeps 8 可能含沙发床/加床</li>
-<li><input disabled="" type="checkbox"> 卫生间 ≥2 个</li>
-<li><input disabled="" type="checkbox"> off-street parking：能停12座小巴</li>
-<li><input disabled="" type="checkbox"> 自助入住：密码锁/钥匙盒，晚到能进</li>
-<li><input disabled="" type="checkbox"> 费用：清洁费、床品费、Wifi 是否另收</li>
-<li><input disabled="" type="checkbox"> 厨房/烧烤：BBQ炉、烤箱、双门冰箱</li>
-<li><input disabled="" type="checkbox"> 暖气：9月高山地区夜间可能接近或低于0℃，确认主要卧室和公共区域都有有效供暖</li>
-<li><input disabled="" type="checkbox"> 司机房：包车司机那间是否含在房费内</li>
+<li><input type="checkbox"> <strong>床铺配置确认</strong>：4间真卧室；混合住宿问房东 &quot;Can the super king beds be split into two singles?&quot;</li>
+<li><input type="checkbox"> 真实床位：sleeps 8 可能含沙发床/加床</li>
+<li><input type="checkbox"> 卫生间 ≥2 个</li>
+<li><input type="checkbox"> off-street parking：能停12座小巴</li>
+<li><input type="checkbox"> 自助入住：密码锁/钥匙盒，晚到能进</li>
+<li><input type="checkbox"> 费用：清洁费、床品费、Wifi 是否另收</li>
+<li><input type="checkbox"> 厨房/烧烤：BBQ炉、烤箱、双门冰箱</li>
+<li><input type="checkbox"> 暖气：9月高山地区夜间可能接近或低于0℃，确认主要卧室和公共区域都有有效供暖</li>
+<li><input type="checkbox"> 司机房：包车司机那间是否含在房费内</li>
 </ul>
 <h1>通用：必办事项</h1>
 <ol>
-<li><input disabled="" type="checkbox"> <strong>入境 NZeTA</strong>：中国护照+有效合资格澳洲签证+从澳洲出发，可按试行政策申请 NZeTA；官方处理时间最多约72小时，建议提前1–2周。出发前再次核对政策仍有效</li>
-<li><input disabled="" type="checkbox"> <strong>驾照</strong>：当前 NZTA 规则下，有效澳洲 full car licence 每次入境后通常可使用18个月；必须携带实体驾照。P牌/临时驾照能否租车由租车公司和保险条款决定</li>
-<li><input disabled="" type="checkbox"> <strong>小巴驾照</strong>：私人自驾前先让租车公司以书面确认“澳洲C类 full licence 可驾驶所订具体车型”，同时确认车辆总重、座位数、最低年龄、持照年限和保险；不要仅凭“12座”口头判断</li>
-<li><input disabled="" type="checkbox"> 包车/租车比价：同口径问油费/里程/司机住宿/渡轮/异地还车</li>
-<li><input disabled="" type="checkbox"> 热门项目提前订：霍比特人村、Wai-O-Tapu、蒂阿瑙萤火虫洞、米尔福德游船（本路线不含凯库拉，删除“观鲸”）</li>
-<li><input disabled="" type="checkbox"> 9月早春：防水防风外层+抓绒+薄羽绒+防水鞋；南北岛高山均可能出现雪、冰和强风</li>
-<li><input disabled="" type="checkbox"> 出发前24小时及当天早晨检查：DOC步道状态、MetService天气、NZTA道路状态；南岛重点看 SH8、SH80、Crown Range 和 SH94 Milford Road</li>
+<li><input type="checkbox"> <strong>入境 NZeTA</strong>：中国护照+有效合资格澳洲签证+从澳洲出发，可按试行政策申请 NZeTA；官方处理时间最多约72小时，建议提前1–2周。出发前再次核对政策仍有效</li>
+<li><input type="checkbox"> <strong>驾照</strong>：当前 NZTA 规则下，有效澳洲 full car licence 每次入境后通常可使用18个月；必须携带实体驾照。P牌/临时驾照能否租车由租车公司和保险条款决定</li>
+<li><input type="checkbox"> <strong>小巴驾照</strong>：私人自驾前先让租车公司以书面确认“澳洲C类 full licence 可驾驶所订具体车型”，同时确认车辆总重、座位数、最低年龄、持照年限和保险；不要仅凭“12座”口头判断</li>
+<li><input type="checkbox"> 包车/租车比价：同口径问油费/里程/司机住宿/渡轮/异地还车</li>
+<li><input type="checkbox"> 热门项目提前订：霍比特人村、Wai-O-Tapu、蒂阿瑙萤火虫洞、米尔福德游船（本路线不含凯库拉，删除“观鲸”）</li>
+<li><input type="checkbox"> 9月早春：防水防风外层+抓绒+薄羽绒+防水鞋；南北岛高山均可能出现雪、冰和强风</li>
+<li><input type="checkbox"> 出发前24小时及当天早晨检查：DOC步道状态、MetService天气、NZTA道路状态；南岛重点看 SH8、SH80、Crown Range 和 SH94 Milford Road</li>
 </ol>
 </main>
   <script>
@@ -875,6 +875,21 @@
       link.rel = "noopener noreferrer";
       if (link.textContent.trim().startsWith("http")) link.textContent = "打开官方链接 ↗";
     });
+
+    (function () {
+      const boxes = document.querySelectorAll('li > input[type="checkbox"]');
+      const key = "nz-checklist-v3.2";
+      try {
+        const saved = JSON.parse(localStorage.getItem(key) || "{}");
+        boxes.forEach((box, i) => {
+          if (saved[i]) box.checked = true;
+          box.addEventListener("change", () => {
+            saved[i] = box.checked;
+            localStorage.setItem(key, JSON.stringify(saved));
+          });
+        });
+      } catch (e) {}
+    })();
   </script>
 </body>
 </html>
