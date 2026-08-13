@@ -59,10 +59,54 @@
       text-decoration: none;
     }
     .nav-links a:hover { color: var(--ios-blue); background: var(--ios-blue-soft); }
+    .countdown-shell {
+      width: min(980px, calc(100% - 32px));
+      margin: 46px auto 0;
+      padding: 30px 24px 31px;
+      text-align: center;
+      background: var(--ios-card-solid);
+      border: 1px solid rgba(0, 0, 0, 0.04);
+      border-radius: var(--ios-radius);
+      box-shadow: var(--ios-shadow);
+    }
+    .countdown-kicker {
+      margin: 0 0 17px;
+      color: var(--ios-secondary);
+      font-size: 14px;
+      font-weight: 590;
+      letter-spacing: 0.02em;
+    }
+    .countdown-grid {
+      display: flex;
+      align-items: baseline;
+      justify-content: center;
+      gap: clamp(18px, 4.5vw, 50px);
+    }
+    .countdown-part { min-width: 72px; }
+    .countdown-number {
+      color: var(--ios-label);
+      font-size: clamp(34px, 6vw, 54px);
+      font-weight: 720;
+      font-variant-numeric: tabular-nums;
+      letter-spacing: -0.045em;
+      line-height: 1;
+    }
+    .countdown-unit {
+      margin-left: 5px;
+      color: var(--ios-tertiary);
+      font-size: 13px;
+      font-weight: 560;
+    }
+    .countdown-date {
+      margin-top: 17px;
+      color: var(--ios-tertiary);
+      font-size: 12px;
+      letter-spacing: 0.04em;
+    }
     main {
       width: min(980px, calc(100% - 32px));
       margin: 0 auto;
-      padding: 72px 0 96px;
+      padding: 54px 0 96px;
     }
     h1, h2, h3 { color: var(--ios-label); line-height: 1.2; letter-spacing: -0.025em; }
     h1 {
@@ -213,7 +257,12 @@
       .topbar-inner { width: calc(100% - 24px); }
       .brand { display: none; }
       .nav-links { width: 100%; justify-content: center; }
-      main { width: calc(100% - 28px); padding: 46px 0 68px; }
+      .countdown-shell { width: calc(100% - 28px); margin-top: 28px; padding: 24px 12px 25px; }
+      .countdown-grid { gap: 9px; }
+      .countdown-part { min-width: 72px; }
+      .countdown-number { font-size: 32px; }
+      .countdown-unit { margin-left: 3px; font-size: 12px; }
+      main { width: calc(100% - 28px); padding: 40px 0 68px; }
       .plan-overview, .stay-grid { grid-template-columns: 1fr; }
       .plan-overview { margin-bottom: 54px; }
       .plan-title { margin-top: 60px; }
@@ -238,12 +287,13 @@
         --ios-shadow: none;
       }
       .topbar { background: rgba(0, 0, 0, 0.72); }
-      .overview-card, .day-card, .stay-card, details.data-disclosure { border-color: rgba(255, 255, 255, 0.07); }
+      .countdown-shell, .overview-card, .day-card, .stay-card, details.data-disclosure { border-color: rgba(255, 255, 255, 0.07); }
     }
     @media print {
       @page { size: A4; margin: 13mm; }
       body { background: white; font-size: 10pt; }
       .topbar, .plan-overview { display: none; }
+      .countdown-shell { margin: 0 0 12mm; box-shadow: none; }
       main { width: 100%; margin: 0; padding: 0; }
       h1 { font-size: 23pt; }
       h2 { break-after: avoid; }
@@ -268,6 +318,16 @@
       </div>
     </div>
   </nav>
+  <section class="countdown-shell" aria-label="距离期中假倒计时">
+    <p class="countdown-kicker" id="countdown-label">距离期中假还剩</p>
+    <div class="countdown-grid" role="timer" aria-describedby="countdown-target">
+      <div class="countdown-part"><span class="countdown-number" id="countdown-days">--</span><span class="countdown-unit">天</span></div>
+      <div class="countdown-part"><span class="countdown-number" id="countdown-hours">--</span><span class="countdown-unit">时</span></div>
+      <div class="countdown-part"><span class="countdown-number" id="countdown-minutes">--</span><span class="countdown-unit">分</span></div>
+      <div class="countdown-part"><span class="countdown-number" id="countdown-seconds">--</span><span class="countdown-unit">秒</span></div>
+    </div>
+    <div class="countdown-date" id="countdown-target">2026.09.19 · MELBOURNE</div>
+  </section>
   <main><h1>新西兰 7晚8日 · 两套方案（v3.1 修订版）</h1>
 <blockquote>
 <p>行程 9/19 出发、9/26 返回墨尔本（周六）｜共7晚、跨8个日历日｜8人｜澳航 Qantas｜两方案上下排列</p>
@@ -608,32 +668,32 @@
 </thead>
 <tbody><tr>
 <td><strong>GO Rentals</strong> ⭐</td>
-<td><a href="https://www.gorentals.co.nz/">gorentals.co.nz</a></td>
+<td><a href="https://www.gorentals.co.nz/">https://www.gorentals.co.nz/</a></td>
 <td>4.7/5（13,197条评价）；含无限里程+基础保险</td>
 </tr>
 <tr>
 <td><strong>Apex</strong> ⭐</td>
-<td><a href="https://www.apexrentals.co.nz/">apexrentals.co.nz</a></td>
+<td><a href="https://www.apexrentals.co.nz/">https://www.apexrentals.co.nz/</a></td>
 <td>性价比高，有8/12座车，有中文站</td>
 </tr>
 <tr>
 <td>Ezi Car Rental</td>
-<td><a href="https://www.ezicarrental.co.nz/">ezicarrental.co.nz</a></td>
+<td><a href="https://www.ezicarrental.co.nz/">https://www.ezicarrental.co.nz/</a></td>
 <td>中高端，服务好</td>
 </tr>
 <tr>
 <td>Omega</td>
-<td><a href="https://www.omegarentalcars.com/">omegarentalcars.com</a></td>
+<td><a href="https://www.omegarentalcars.com/">https://www.omegarentalcars.com/</a></td>
 <td>老牌经济型</td>
 </tr>
 <tr>
 <td>Jucy</td>
-<td><a href="https://www.jucy.co.nz/">jucy.co.nz</a></td>
+<td><a href="https://www.jucy.co.nz/">https://www.jucy.co.nz/</a></td>
 <td>预算型</td>
 </tr>
 <tr>
 <td>Rental Cars 聚合</td>
-<td><a href="https://www.rentalcars.com/">rentalcars.com</a></td>
+<td><a href="https://www.rentalcars.com/">https://www.rentalcars.com/</a></td>
 <td>一键比价，注意隐藏费</td>
 </tr>
 </tbody></table>
@@ -651,22 +711,22 @@
 </thead>
 <tbody><tr>
 <td>携程</td>
-<td><a href="https://www.ctrip.com/">ctrip.com</a></td>
+<td><a href="https://www.ctrip.com/">https://www.ctrip.com/</a></td>
 <td>华人包车最集中，评分可筛</td>
 </tr>
 <tr>
 <td>飞猪</td>
-<td><a href="https://www.fliggy.com/">fliggy.com</a></td>
+<td><a href="https://www.fliggy.com/">https://www.fliggy.com/</a></td>
 <td>包车游/租车产品多</td>
 </tr>
 <tr>
 <td>马蜂窝</td>
-<td><a href="https://www.mafengwo.cn/">mafengwo.cn</a></td>
+<td><a href="https://www.mafengwo.cn/">https://www.mafengwo.cn/</a></td>
 <td>看真实游记</td>
 </tr>
 <tr>
 <td>Klook</td>
-<td><a href="https://www.klook.com/zh-CN/">klook.com/zh-CN</a></td>
+<td><a href="https://www.klook.com/zh-CN/">https://www.klook.com/zh-CN/</a></td>
 <td>中文界面，售后有保障</td>
 </tr>
 </tbody></table>
@@ -760,28 +820,50 @@
 <hr>
 <h1>通用：下单前检查清单（每栋过一遍）</h1>
 <ul>
-<li><input type="checkbox"> <strong>床铺配置确认</strong>：4间真卧室；混合住宿问房东 &quot;Can the super king beds be split into two singles?&quot;</li>
-<li><input type="checkbox"> 真实床位：sleeps 8 可能含沙发床/加床</li>
-<li><input type="checkbox"> 卫生间 ≥2 个</li>
-<li><input type="checkbox"> off-street parking：能停12座小巴</li>
-<li><input type="checkbox"> 自助入住：密码锁/钥匙盒，晚到能进</li>
-<li><input type="checkbox"> 费用：清洁费、床品费、Wifi 是否另收</li>
-<li><input type="checkbox"> 厨房/烧烤：BBQ炉、烤箱、双门冰箱</li>
-<li><input type="checkbox"> 暖气：9月高山地区夜间可能接近或低于0℃，确认主要卧室和公共区域都有有效供暖</li>
-<li><input type="checkbox"> 司机房：包车司机那间是否含在房费内</li>
+<li><input disabled="" type="checkbox"> <strong>床铺配置确认</strong>：4间真卧室；混合住宿问房东 &quot;Can the super king beds be split into two singles?&quot;</li>
+<li><input disabled="" type="checkbox"> 真实床位：sleeps 8 可能含沙发床/加床</li>
+<li><input disabled="" type="checkbox"> 卫生间 ≥2 个</li>
+<li><input disabled="" type="checkbox"> off-street parking：能停12座小巴</li>
+<li><input disabled="" type="checkbox"> 自助入住：密码锁/钥匙盒，晚到能进</li>
+<li><input disabled="" type="checkbox"> 费用：清洁费、床品费、Wifi 是否另收</li>
+<li><input disabled="" type="checkbox"> 厨房/烧烤：BBQ炉、烤箱、双门冰箱</li>
+<li><input disabled="" type="checkbox"> 暖气：9月高山地区夜间可能接近或低于0℃，确认主要卧室和公共区域都有有效供暖</li>
+<li><input disabled="" type="checkbox"> 司机房：包车司机那间是否含在房费内</li>
 </ul>
 <h1>通用：必办事项</h1>
 <ol>
-<li><input type="checkbox"> <strong>入境 NZeTA</strong>：中国护照+有效合资格澳洲签证+从澳洲出发，可按试行政策申请 NZeTA；官方处理时间最多约72小时，建议提前1–2周。出发前再次核对政策仍有效</li>
-<li><input type="checkbox"> <strong>驾照</strong>：当前 NZTA 规则下，有效澳洲 full car licence 每次入境后通常可使用18个月；必须携带实体驾照。P牌/临时驾照能否租车由租车公司和保险条款决定</li>
-<li><input type="checkbox"> <strong>小巴驾照</strong>：私人自驾前先让租车公司以书面确认“澳洲C类 full licence 可驾驶所订具体车型”，同时确认车辆总重、座位数、最低年龄、持照年限和保险；不要仅凭“12座”口头判断</li>
-<li><input type="checkbox"> 包车/租车比价：同口径问油费/里程/司机住宿/渡轮/异地还车</li>
-<li><input type="checkbox"> 热门项目提前订：霍比特人村、Wai-O-Tapu、蒂阿瑙萤火虫洞、米尔福德游船（本路线不含凯库拉，删除“观鲸”）</li>
-<li><input type="checkbox"> 9月早春：防水防风外层+抓绒+薄羽绒+防水鞋；南北岛高山均可能出现雪、冰和强风</li>
-<li><input type="checkbox"> 出发前24小时及当天早晨检查：DOC步道状态、MetService天气、NZTA道路状态；南岛重点看 SH8、SH80、Crown Range 和 SH94 Milford Road</li>
+<li><input disabled="" type="checkbox"> <strong>入境 NZeTA</strong>：中国护照+有效合资格澳洲签证+从澳洲出发，可按试行政策申请 NZeTA；官方处理时间最多约72小时，建议提前1–2周。出发前再次核对政策仍有效</li>
+<li><input disabled="" type="checkbox"> <strong>驾照</strong>：当前 NZTA 规则下，有效澳洲 full car licence 每次入境后通常可使用18个月；必须携带实体驾照。P牌/临时驾照能否租车由租车公司和保险条款决定</li>
+<li><input disabled="" type="checkbox"> <strong>小巴驾照</strong>：私人自驾前先让租车公司以书面确认“澳洲C类 full licence 可驾驶所订具体车型”，同时确认车辆总重、座位数、最低年龄、持照年限和保险；不要仅凭“12座”口头判断</li>
+<li><input disabled="" type="checkbox"> 包车/租车比价：同口径问油费/里程/司机住宿/渡轮/异地还车</li>
+<li><input disabled="" type="checkbox"> 热门项目提前订：霍比特人村、Wai-O-Tapu、蒂阿瑙萤火虫洞、米尔福德游船（本路线不含凯库拉，删除“观鲸”）</li>
+<li><input disabled="" type="checkbox"> 9月早春：防水防风外层+抓绒+薄羽绒+防水鞋；南北岛高山均可能出现雪、冰和强风</li>
+<li><input disabled="" type="checkbox"> 出发前24小时及当天早晨检查：DOC步道状态、MetService天气、NZTA道路状态；南岛重点看 SH8、SH80、Crown Range 和 SH94 Milford Road</li>
 </ol>
 </main>
   <script>
+    const countdownTarget = new Date("2026-09-19T00:00:00+10:00").getTime();
+    const countdownFields = {
+      days: document.getElementById("countdown-days"),
+      hours: document.getElementById("countdown-hours"),
+      minutes: document.getElementById("countdown-minutes"),
+      seconds: document.getElementById("countdown-seconds")
+    };
+    function updateCountdown() {
+      const remaining = Math.max(0, countdownTarget - Date.now());
+      const days = Math.floor(remaining / 86400000);
+      const hours = Math.floor((remaining % 86400000) / 3600000);
+      const minutes = Math.floor((remaining % 3600000) / 60000);
+      const seconds = Math.floor((remaining % 60000) / 1000);
+      countdownFields.days.textContent = String(days);
+      countdownFields.hours.textContent = String(hours).padStart(2, "0");
+      countdownFields.minutes.textContent = String(minutes).padStart(2, "0");
+      countdownFields.seconds.textContent = String(seconds).padStart(2, "0");
+      if (remaining === 0) document.getElementById("countdown-label").textContent = "期中假开始了";
+    }
+    updateCountdown();
+    setInterval(updateCountdown, 1000);
+
     const titles = document.querySelectorAll("main > h1");
     if (titles[0]) titles[0].classList.add("doc-title");
     if (titles[1]) { titles[1].classList.add("plan-title"); titles[1].id = "north-island"; }
@@ -867,6 +949,7 @@
     });
 
     document.querySelectorAll('li > input[type="checkbox"]').forEach((checkbox) => {
+      checkbox.disabled = false;
       checkbox.parentElement.classList.add("task-list-item");
       checkbox.parentElement.parentElement.classList.add("contains-task-list");
     });
@@ -875,21 +958,20 @@
       link.rel = "noopener noreferrer";
       if (link.textContent.trim().startsWith("http")) link.textContent = "打开官方链接 ↗";
     });
-
-    (function () {
+    try {
       const boxes = document.querySelectorAll('li > input[type="checkbox"]');
-      const key = "nz-checklist-v3.2";
-      try {
-        const saved = JSON.parse(localStorage.getItem(key) || "{}");
-        boxes.forEach((box, i) => {
-          if (saved[i]) box.checked = true;
-          box.addEventListener("change", () => {
-            saved[i] = box.checked;
-            localStorage.setItem(key, JSON.stringify(saved));
-          });
+      const key = "nz-itinerary-v3.2-checks";
+      const saved = JSON.parse(localStorage.getItem(key) || "{}");
+      boxes.forEach((box, index) => {
+        box.checked = Boolean(saved[index]);
+        box.addEventListener("change", () => {
+          saved[index] = box.checked;
+          localStorage.setItem(key, JSON.stringify(saved));
         });
-      } catch (e) {}
-    })();
+      });
+    } catch (error) {
+      console.warn("Checklist state could not be saved.", error);
+    }
   </script>
 </body>
 </html>

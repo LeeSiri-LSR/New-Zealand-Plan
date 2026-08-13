@@ -72,10 +72,54 @@ const html = `<!doctype html>
       text-decoration: none;
     }
     .nav-links a:hover { color: var(--ios-blue); background: var(--ios-blue-soft); }
+    .countdown-shell {
+      width: min(980px, calc(100% - 32px));
+      margin: 46px auto 0;
+      padding: 30px 24px 31px;
+      text-align: center;
+      background: var(--ios-card-solid);
+      border: 1px solid rgba(0, 0, 0, 0.04);
+      border-radius: var(--ios-radius);
+      box-shadow: var(--ios-shadow);
+    }
+    .countdown-kicker {
+      margin: 0 0 17px;
+      color: var(--ios-secondary);
+      font-size: 14px;
+      font-weight: 590;
+      letter-spacing: 0.02em;
+    }
+    .countdown-grid {
+      display: flex;
+      align-items: baseline;
+      justify-content: center;
+      gap: clamp(18px, 4.5vw, 50px);
+    }
+    .countdown-part { min-width: 72px; }
+    .countdown-number {
+      color: var(--ios-label);
+      font-size: clamp(34px, 6vw, 54px);
+      font-weight: 720;
+      font-variant-numeric: tabular-nums;
+      letter-spacing: -0.045em;
+      line-height: 1;
+    }
+    .countdown-unit {
+      margin-left: 5px;
+      color: var(--ios-tertiary);
+      font-size: 13px;
+      font-weight: 560;
+    }
+    .countdown-date {
+      margin-top: 17px;
+      color: var(--ios-tertiary);
+      font-size: 12px;
+      letter-spacing: 0.04em;
+    }
     main {
       width: min(980px, calc(100% - 32px));
       margin: 0 auto;
-      padding: 72px 0 96px;
+      padding: 54px 0 96px;
     }
     h1, h2, h3 { color: var(--ios-label); line-height: 1.2; letter-spacing: -0.025em; }
     h1 {
@@ -226,7 +270,12 @@ const html = `<!doctype html>
       .topbar-inner { width: calc(100% - 24px); }
       .brand { display: none; }
       .nav-links { width: 100%; justify-content: center; }
-      main { width: calc(100% - 28px); padding: 46px 0 68px; }
+      .countdown-shell { width: calc(100% - 28px); margin-top: 28px; padding: 24px 12px 25px; }
+      .countdown-grid { gap: 9px; }
+      .countdown-part { min-width: 72px; }
+      .countdown-number { font-size: 32px; }
+      .countdown-unit { margin-left: 3px; font-size: 12px; }
+      main { width: calc(100% - 28px); padding: 40px 0 68px; }
       .plan-overview, .stay-grid { grid-template-columns: 1fr; }
       .plan-overview { margin-bottom: 54px; }
       .plan-title { margin-top: 60px; }
@@ -251,12 +300,13 @@ const html = `<!doctype html>
         --ios-shadow: none;
       }
       .topbar { background: rgba(0, 0, 0, 0.72); }
-      .overview-card, .day-card, .stay-card, details.data-disclosure { border-color: rgba(255, 255, 255, 0.07); }
+      .countdown-shell, .overview-card, .day-card, .stay-card, details.data-disclosure { border-color: rgba(255, 255, 255, 0.07); }
     }
     @media print {
       @page { size: A4; margin: 13mm; }
       body { background: white; font-size: 10pt; }
       .topbar, .plan-overview { display: none; }
+      .countdown-shell { margin: 0 0 12mm; box-shadow: none; }
       main { width: 100%; margin: 0; padding: 0; }
       h1 { font-size: 23pt; }
       h2 { break-after: avoid; }
@@ -281,8 +331,40 @@ const html = `<!doctype html>
       </div>
     </div>
   </nav>
+  <section class="countdown-shell" aria-label="距离期中假倒计时">
+    <p class="countdown-kicker" id="countdown-label">距离期中假还剩</p>
+    <div class="countdown-grid" role="timer" aria-describedby="countdown-target">
+      <div class="countdown-part"><span class="countdown-number" id="countdown-days">--</span><span class="countdown-unit">天</span></div>
+      <div class="countdown-part"><span class="countdown-number" id="countdown-hours">--</span><span class="countdown-unit">时</span></div>
+      <div class="countdown-part"><span class="countdown-number" id="countdown-minutes">--</span><span class="countdown-unit">分</span></div>
+      <div class="countdown-part"><span class="countdown-number" id="countdown-seconds">--</span><span class="countdown-unit">秒</span></div>
+    </div>
+    <div class="countdown-date" id="countdown-target">2026.09.19 · MELBOURNE</div>
+  </section>
   <main>${body}</main>
   <script>
+    const countdownTarget = new Date("2026-09-19T00:00:00+10:00").getTime();
+    const countdownFields = {
+      days: document.getElementById("countdown-days"),
+      hours: document.getElementById("countdown-hours"),
+      minutes: document.getElementById("countdown-minutes"),
+      seconds: document.getElementById("countdown-seconds")
+    };
+    function updateCountdown() {
+      const remaining = Math.max(0, countdownTarget - Date.now());
+      const days = Math.floor(remaining / 86400000);
+      const hours = Math.floor((remaining % 86400000) / 3600000);
+      const minutes = Math.floor((remaining % 3600000) / 60000);
+      const seconds = Math.floor((remaining % 60000) / 1000);
+      countdownFields.days.textContent = String(days);
+      countdownFields.hours.textContent = String(hours).padStart(2, "0");
+      countdownFields.minutes.textContent = String(minutes).padStart(2, "0");
+      countdownFields.seconds.textContent = String(seconds).padStart(2, "0");
+      if (remaining === 0) document.getElementById("countdown-label").textContent = "期中假开始了";
+    }
+    updateCountdown();
+    setInterval(updateCountdown, 1000);
+
     const titles = document.querySelectorAll("main > h1");
     if (titles[0]) titles[0].classList.add("doc-title");
     if (titles[1]) { titles[1].classList.add("plan-title"); titles[1].id = "north-island"; }
@@ -368,6 +450,7 @@ const html = `<!doctype html>
     });
 
     document.querySelectorAll('li > input[type="checkbox"]').forEach((checkbox) => {
+      checkbox.disabled = false;
       checkbox.parentElement.classList.add("task-list-item");
       checkbox.parentElement.parentElement.classList.add("contains-task-list");
     });
@@ -376,6 +459,20 @@ const html = `<!doctype html>
       link.rel = "noopener noreferrer";
       if (link.textContent.trim().startsWith("http")) link.textContent = "打开官方链接 ↗";
     });
+    try {
+      const boxes = document.querySelectorAll('li > input[type="checkbox"]');
+      const key = "nz-itinerary-v3.2-checks";
+      const saved = JSON.parse(localStorage.getItem(key) || "{}");
+      boxes.forEach((box, index) => {
+        box.checked = Boolean(saved[index]);
+        box.addEventListener("change", () => {
+          saved[index] = box.checked;
+          localStorage.setItem(key, JSON.stringify(saved));
+        });
+      });
+    } catch (error) {
+      console.warn("Checklist state could not be saved.", error);
+    }
   </script>
 </body>
 </html>`;
